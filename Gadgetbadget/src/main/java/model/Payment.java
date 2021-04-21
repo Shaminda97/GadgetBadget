@@ -25,7 +25,7 @@ public class Payment {
 	 }
 	
 	//insert
-	public String insertItem(String product_id, String buyer_id, String amount, String card_number,String date, String cVv)
+	public String insertItem(String ProductID, String BuyerID, String amount, String cardNumber,String date, String cvv)
 	 {
 		String output = "";
 		 try
@@ -34,17 +34,17 @@ public class Payment {
 		 if (con == null)
 		 {return "Error while connecting to the database for inserting."; }
 		 // create a prepared statement
-		 String query = " insert into payments(`PayID` , ProductID`, `BuyerID`, `amount`, `cardNumber`, `date`, `cvv`)"
-		 + " values (?, ?, ?, ?, ?)";
+		 String query = " insert into payments(`PayID` , `ProductID`, `BuyerID`, `amount`, `cardNumber`, `date`, `cvv`)"
+		 + " values (?, ?, ?, ?, ?, ?, ?)";
 		 PreparedStatement preparedStmt = con.prepareStatement(query);
 		 // binding values
 		 preparedStmt.setInt(1, 0);
-		 preparedStmt.setString(2, product_id);
-		 preparedStmt.setString(3, buyer_id);
+		 preparedStmt.setInt(2, Integer.parseInt(ProductID));
+		 preparedStmt.setInt(3, Integer.parseInt(BuyerID));
 		 preparedStmt.setDouble(4, Double.parseDouble(amount));
-		 preparedStmt.setString(5, card_number);
+		 preparedStmt.setInt(5, Integer.parseInt(cardNumber));
 		 preparedStmt.setString(6, date);
-		 preparedStmt.setString(7, cVv);
+		 preparedStmt.setInt(7, Integer.parseInt(cvv));
 		// execute the statement
 		 preparedStmt.execute();
 		 con.close();

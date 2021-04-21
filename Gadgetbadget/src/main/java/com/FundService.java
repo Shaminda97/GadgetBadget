@@ -36,11 +36,11 @@ public class FundService {
 			 @FormParam("reasearchTopic") String reasearchTopic,
 			 @FormParam("fundersID") String fundersID,
 			 @FormParam("amount") String amount,
-			 @FormParam("card_number") String card_number,
+			 @FormParam("cardNumber") String cardNumber,
 			@FormParam("date") String date,
 			@FormParam("cvv") String cvv)
 			{
-			 String output = fundObj.insertItem(reasearcherID,reasearchTopic, fundersID, amount, card_number, date, cvv);
+			 String output = fundObj.insertItem(reasearcherID,reasearchTopic, fundersID, amount, cardNumber, date, cvv);
 			return output;
 			}
 			
@@ -49,22 +49,22 @@ public class FundService {
 			@Path("/")
 			@Consumes(MediaType.APPLICATION_JSON)
 			@Produces(MediaType.TEXT_PLAIN)
-			public String updateItem(String paymentData)
+			public String updateItem(String fundData)
 			{
 			//Convert the input string to a JSON object
-			 JsonObject itemObject = new JsonParser().parse(paymentData).getAsJsonObject();
+			 JsonObject fundObject = new JsonParser().parse(fundData).getAsJsonObject();
 			//Read the values from the JSON object
-			 String fundID = itemObject.get("fundID").getAsString();
-			 String reasearcherID = itemObject.get("reasearcherID").getAsString();
-			 String BuyerID = itemObject.get("BuyerID").getAsString();
-			 String reasearchTopic = itemObject.get("reasearchTopic").getAsString();
-			 String fundersID = itemObject.get("fundersID").getAsString();
-			 String amount = itemObject.get("amount").getAsString();
-			 String cardNumber = itemObject.get("cardNumber").getAsString();
-			 String date = itemObject.get("date").getAsString();
-			 String cvv = itemObject.get("cVv").getAsString();
+			 String fundID = fundObject.get("fundID").getAsString();
+			 String reasearcherID = fundObject.get("reasearcherID").getAsString();
+			 //String BuyerID = fundObj.get("BuyerID").getAsString();
+			 String reasearchTopic = fundObject.get("reasearchTopic").getAsString();
+			 String fundersID = fundObject.get("fundersID").getAsString();
+			 String amount = fundObject.get("amount").getAsString();
+			 String cardNumber = fundObject.get("cardNumber").getAsString();
+			 String date = fundObject.get("date").getAsString();
+			 String cvv = fundObject.get("cvv").getAsString();
 			 
-			 String output = fundObj.updateItem(fundID, reasearcherID, reasearchTopic, BuyerID, amount, cardNumber, date, cvv);
+			 String output = fundObj.updateItem(fundID, reasearcherID, reasearchTopic, fundersID, amount, cardNumber, date, cvv);
 			return output;
 			}
 			

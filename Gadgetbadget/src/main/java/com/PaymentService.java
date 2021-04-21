@@ -41,14 +41,14 @@ public class PaymentService {
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String insertItem(@FormParam("product_id") String product_id,
-		 @FormParam("buyer_id") String buyer_id,
+		public String insertItem(@FormParam("ProductID") String ProductID,
+		 @FormParam("BuyerID") String BuyerID,
 		 @FormParam("amount") String amount,
-		 @FormParam("card_number") String card_number,
+		 @FormParam("cardNumber") String cardNumber,
 		@FormParam("date") String date,
 		@FormParam("cvv") String cvv)
 		{
-		 String output = paymentObj.insertItem(product_id, buyer_id, amount, card_number, date, cvv);
+		 String output = paymentObj.insertItem(ProductID, BuyerID, amount, cardNumber, date, cvv);
 		return output;
 		}
 		

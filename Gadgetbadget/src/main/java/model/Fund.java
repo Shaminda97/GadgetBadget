@@ -25,7 +25,7 @@ public class Fund {
 	 }
 	
 	//insert
-		public String insertItem(String reasearcherID, String reasearchTopic, String fundersID, String amount, String card_number,String date, String cVv)
+		/*public String insertItem(String reasearcherID, String reasearchTopic, String fundersID, String amount, String card_number,String date, String cVv)
 		 {
 			String output = "";
 			 try
@@ -35,17 +35,17 @@ public class Fund {
 			 {return "Error while connecting to the database for inserting."; }
 			 // create a prepared statement
 			 String query = " insert into funds(`fundID`, `reasearcherID`, `reasearchTopic`, `fundersID`, `amount`, `cardNumber`, `date`, `cvv`)"
-			 + " values (?, ?, ?, ?, ?)";
+			 + " values (?, ?, ?, ?, ?. ?, ?, ?)";
 			 PreparedStatement preparedStmt = con.prepareStatement(query);
 			 // binding values
 			 preparedStmt.setInt(1, 0);
-			 preparedStmt.setString(2, reasearcherID);
+			 preparedStmt.setInt(2, Integer.parseInt(reasearcherID));
 			 preparedStmt.setString(3, reasearchTopic);
-			 preparedStmt.setString(4, fundersID);
+			 preparedStmt.setInt(4, Integer.parseInt(fundersID));
 			 preparedStmt.setDouble(5, Double.parseDouble(amount));
-			 preparedStmt.setString(6, card_number);
+			 preparedStmt.setInt(6, Integer.parseInt(card_number));
 			 preparedStmt.setString(7, date);
-			 preparedStmt.setString(8, cVv);
+			 preparedStmt.setInt(8, Integer.parseInt(cVv));
 			// execute the statement
 			 preparedStmt.execute();
 			 con.close();
@@ -58,7 +58,42 @@ public class Fund {
 			 }
 			 return output;
 			
-		 }
+		 }*/
+	public String insertItem(String reasearcherID, String reasearchTopic, String fundersID, String amount,String cardNumber,String date,String cvv)
+	 {
+	 String output = "";
+	 try
+	 {
+	 Connection con = connect();
+	 if (con == null)
+	 {return "Error while connecting to the database for inserting."; }
+	 // create a prepared statement 
+	 String query = " insert into funds (`fundID`, `reasearcherID`, `reasearchTopic`, `fundersID`, `amount`, `cardNumber`, `date`, `cvv`)"
+	 + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+	 PreparedStatement preparedStmt = con.prepareStatement(query);
+	 // binding values
+	 preparedStmt.setInt(1, 0);
+	 preparedStmt.setInt(2, Integer.parseInt(reasearcherID));
+	 preparedStmt.setString(3, reasearchTopic);
+	 preparedStmt.setInt(4, Integer.parseInt(fundersID));
+	 preparedStmt.setDouble(5, Double.parseDouble(amount));
+	 preparedStmt.setInt(6, Integer.parseInt(cardNumber));
+	 preparedStmt.setString(7, date);
+	 preparedStmt.setInt(8, Integer.parseInt(cvv));
+	// execute the statement
+	 preparedStmt.execute();
+	 con.close();
+	 output = "Inserted successfully";
+	 }
+	 catch (Exception e)
+	 {
+	 output = "Error while inserting the fund.";
+	 System.err.println(e.getMessage());
+	 }
+	 return output;
+	 }
+	
+	
 		
 		//Admin read Item
 		public String readItems()
@@ -84,7 +119,7 @@ public class Fund {
 			 String fundID = Integer.toString(rs.getInt("fundID"));
 			 String reasearcherID = Integer.toString(rs.getInt("reasearcherID"));
 			 String reasearchTopic = Integer.toString(rs.getInt("fundersID"));
-			 String fundersID = Integer.toString(rs.getInt("reasearchTopic"));
+			 String fundersID = rs.getString("reasearchTopic");
 			 String amount = Double.toString(rs.getDouble("amount"));
 			 String cardNumber = Integer.toString(rs.getInt("cardNumber"));
 			 String date = rs.getString("date");
@@ -118,7 +153,7 @@ public class Fund {
 		 }
 		
 		//update
-		public String updateItem(String fundId, String reasearchId, String funderId,String reasearchTopic, String amount, String cardNumber,String date, String cVv)
+		public String updateItem(String fundID, String reasearcherID, String reasearchTopic, String fundersID,String amount, String cardNumber,String date, String cvv)
 		{
 			 String output = "";
 			 try
@@ -130,14 +165,14 @@ public class Fund {
 			 String query = "UPDATE funds SET reasearcherID=?,reasearchTopic=?, fundersID=?,amount=?,cardNumber=?,date=?,cvv=? WHERE fundID=?";
 			 PreparedStatement preparedStmt = con.prepareStatement(query);
 			 // binding values
-			 preparedStmt.setString(1, reasearchId);
-			 preparedStmt.setString(2, funderId);
-			 preparedStmt.setString(3, reasearchTopic);
+			 preparedStmt.setInt(1, Integer.parseInt(reasearcherID));
+			 preparedStmt.setString(2, reasearchTopic);
+			 preparedStmt.setInt(3, Integer.parseInt(fundersID)); 
 			 preparedStmt.setDouble(4, Double.parseDouble(amount));
-			 preparedStmt.setString(5, cardNumber);
+			 preparedStmt.setInt(5, Integer.parseInt(cardNumber));
 			 preparedStmt.setString(6, date);
-			 preparedStmt.setString(7, cVv);
-			 preparedStmt.setInt(8, Integer.parseInt(fundId));
+			 preparedStmt.setInt(7, Integer.parseInt(cvv));
+			 preparedStmt.setInt(8, Integer.parseInt(fundID));
 			 // execute the statement
 			 preparedStmt.execute();
 			 con.close();

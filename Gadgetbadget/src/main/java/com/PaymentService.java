@@ -22,33 +22,35 @@ public class PaymentService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readItems()
+	public String readPayment()
 	 {
-		return paymentObj.readItems();
+		return paymentObj.readPayment();
 	 //return "Hello";
 	 } 
 	
-	/*@GET
-	@Path("{BuyerId}")
-	public Response GET(@PathParam("BuyerId")int BuyerId) {
-		
-		return null;
-	}*/
-	
+	//readbi ID
+	@GET
+	@Path("/{PayID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String readpaymentById (@PathParam("PayID") String PayID)
+	 {
+		 
+		return paymentObj.readpaymentById(PayID);
+	 }
 	
 	//insert
 		@POST
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String insertItem(@FormParam("ProductID") String ProductID,
+		public String insertPayment(@FormParam("ProductID") String ProductID,
 		 @FormParam("BuyerID") String BuyerID,
 		 @FormParam("amount") String amount,
 		 @FormParam("cardNumber") String cardNumber,
 		@FormParam("date") String date,
 		@FormParam("cvv") String cvv)
 		{
-		 String output = paymentObj.insertItem(ProductID, BuyerID, amount, cardNumber, date, cvv);
+		 String output = paymentObj.insertPayment(ProductID, BuyerID, amount, cardNumber, date, cvv);
 		return output;
 		}
 		
@@ -57,7 +59,7 @@ public class PaymentService {
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String updateItem(String paymentData)
+		public String updatePayment(String paymentData)
 		{
 		//Convert the input string to a JSON object
 		 JsonObject itemObject = new JsonParser().parse(paymentData).getAsJsonObject();
@@ -70,7 +72,7 @@ public class PaymentService {
 		 String date = itemObject.get("date").getAsString();
 		 String cvv = itemObject.get("cvv").getAsString();
 		 
-		 String output = paymentObj.updateItem(PayID, ProductID, BuyerID, amount, cardNumber, date, cvv);
+		 String output = paymentObj.updatePayment(PayID, ProductID, BuyerID, amount, cardNumber, date, cvv);
 		return output;
 		}
 
@@ -86,7 +88,7 @@ public class PaymentService {
 
 		//Read the value from the element <itemID>
 		 String PayID = doc.select("PayID").text();
-		 String output = paymentObj.deleteItem(PayID);
+		 String output = paymentObj.deletePayment(PayID);
 		return output;
 		}
 }

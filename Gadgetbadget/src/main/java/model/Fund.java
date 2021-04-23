@@ -24,42 +24,8 @@ public class Fund {
 	 return con;
 	 }
 	
-	//insert
-		/*public String insertItem(String reasearcherID, String reasearchTopic, String fundersID, String amount, String card_number,String date, String cVv)
-		 {
-			String output = "";
-			 try
-			 {
-			 Connection con = connect();
-			 if (con == null)
-			 {return "Error while connecting to the database for inserting."; }
-			 // create a prepared statement
-			 String query = " insert into funds(`fundID`, `reasearcherID`, `reasearchTopic`, `fundersID`, `amount`, `cardNumber`, `date`, `cvv`)"
-			 + " values (?, ?, ?, ?, ?. ?, ?, ?)";
-			 PreparedStatement preparedStmt = con.prepareStatement(query);
-			 // binding values
-			 preparedStmt.setInt(1, 0);
-			 preparedStmt.setInt(2, Integer.parseInt(reasearcherID));
-			 preparedStmt.setString(3, reasearchTopic);
-			 preparedStmt.setInt(4, Integer.parseInt(fundersID));
-			 preparedStmt.setDouble(5, Double.parseDouble(amount));
-			 preparedStmt.setInt(6, Integer.parseInt(card_number));
-			 preparedStmt.setString(7, date);
-			 preparedStmt.setInt(8, Integer.parseInt(cVv));
-			// execute the statement
-			 preparedStmt.execute();
-			 con.close();
-			 output = "Inserted successfully";
-			 }
-			 catch (Exception e)
-			 {
-			 output = "Error while inserting the item.";
-			 System.err.println(e.getMessage());
-			 }
-			 return output;
-			
-		 }*/
-	public String insertItem(String reasearcherID, String reasearchTopic, String fundersID, String amount,String cardNumber,String date,String cvv)
+	
+	public String insertFund(String reasearcherID, String reasearchTopic, String fundersID, String amount,String cardNumber,String date,String cvv)
 	 {
 	 String output = "";
 	 try
@@ -96,7 +62,7 @@ public class Fund {
 	
 		
 		//Admin read Item
-		public String readItems()
+		public String readFunds()
 		 {
 			 String output = "";
 			 try
@@ -107,8 +73,8 @@ public class Fund {
 			 // Prepare the html table to be displayed
 			 output = "<table border='1'><tr><th>reasearcherID</th><th>fundersID</th>" +
 			 "<th>reasearchTopic</th>" +"<th>amount</th>" +
-			 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>" +
-			 "<th>Update</th><th>Remove</th></tr>";
+			 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>";/* +
+			 "<th>Update</th><th>Remove</th></tr>";*/
 		
 			 String query = "select * from funds";
 			 Statement stmt = con.createStatement();
@@ -133,12 +99,60 @@ public class Fund {
 			 //output += "<td>" + amount + "</td>";
 			 output += "<td>" + date + "</td>";
 			 output += "<td>" + cvv + "</td>";
-			 // buttons
-			 output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-			 + "<td><form method='post' action='items.jsp'>"
-			 + "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-			 + "<input name='itemID' type='hidden' value='" + fundID
-			 + "'>" + "</form></td></tr>";
+			
+			 }
+			 con.close();
+			 // Complete the html table
+			 output += "</table>";
+			 }
+			 catch (Exception e)
+			 {
+			 output = "Error while reading the items.";
+			 System.err.println(e.getMessage());
+			 }
+			 return output;
+		 }
+		
+		//fund read by fund id
+		public String readFundByID(String fundID)
+		 {
+			 String output = "";
+			 try
+			 {
+			 Connection con = connect();
+			 if (con == null)
+			 {return "Error while connecting to the database for reading."; }
+			 // Prepare the html table to be displayed
+			 output = "<table border='1'><tr><th>reasearcherID</th><th>fundersID</th>" +
+			 "<th>reasearchTopic</th>" +"<th>amount</th>" +
+			 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>";// +
+			// "<th>Update</th><th>Remove</th></tr>";
+		
+			 String query = "select * from funds where fundID = ?";
+			 //Statement stmt = con.createStatement();
+			 PreparedStatement preparedStmt = con.prepareStatement(query);
+			 preparedStmt.setInt(1, Integer.parseInt(fundID));
+			 ResultSet rs = preparedStmt.executeQuery();
+			 while (rs.next())
+			 {
+			 //String fundID = Integer.toString(rs.getInt("fundID"));
+			 String reasearcherID = Integer.toString(rs.getInt("reasearcherID"));
+			 String reasearchTopic = Integer.toString(rs.getInt("fundersID"));
+			 String fundersID = rs.getString("reasearchTopic");
+			 String amount = Double.toString(rs.getDouble("amount"));
+			 String cardNumber = Integer.toString(rs.getInt("cardNumber"));
+			 String date = rs.getString("date");
+			 String cvv = Integer.toString(rs.getInt("cvv"));
+			 // Add into the html table
+			 output += "<tr><td>" + reasearcherID + "</td>";
+			 output += "<td>" + reasearchTopic + "</td>";
+			 output += "<td>" + fundersID + "</td>";
+			 output += "<td>" + amount + "</td>";
+			 output += "<td>" + cardNumber + "</td>";
+			 //output += "<td>" + amount + "</td>";
+			 output += "<td>" + date + "</td>";
+			 output += "<td>" + cvv + "</td>";
+			 
 			 }
 			 con.close();
 			 // Complete the html table
@@ -153,7 +167,7 @@ public class Fund {
 		 }
 		
 		//update
-		public String updateItem(String fundID, String reasearcherID, String reasearchTopic, String fundersID,String amount, String cardNumber,String date, String cvv)
+		public String updateFunds(String fundID, String reasearcherID, String reasearchTopic, String fundersID,String amount, String cardNumber,String date, String cvv)
 		{
 			 String output = "";
 			 try
@@ -186,7 +200,7 @@ public class Fund {
 			 return output;
 			 }
 		
-		public String deleteItem(String fundID)
+		public String deleteFunds(String fundID)
 		 {
 		 String output = "";
 		 try

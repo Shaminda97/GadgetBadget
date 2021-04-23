@@ -24,7 +24,16 @@ public class FundService {
 	@Produces(MediaType.TEXT_HTML)
 	public String readItems()
 	 {
-		return fundObj.readItems();
+		return fundObj.readFunds();
+	 }
+	
+	@GET
+	@Path("/{fundID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String readFundByID(@PathParam("fundID") String fundID)
+	 {
+		 
+		return fundObj.readFundByID(fundID);
 	 }
 	
 	//insert
@@ -32,7 +41,7 @@ public class FundService {
 			@Path("/")
 			@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 			@Produces(MediaType.TEXT_PLAIN)
-			public String insertItem(@FormParam("reasearcherID") String reasearcherID,
+			public String insertFund(@FormParam("reasearcherID") String reasearcherID,
 			 @FormParam("reasearchTopic") String reasearchTopic,
 			 @FormParam("fundersID") String fundersID,
 			 @FormParam("amount") String amount,
@@ -40,7 +49,7 @@ public class FundService {
 			@FormParam("date") String date,
 			@FormParam("cvv") String cvv)
 			{
-			 String output = fundObj.insertItem(reasearcherID,reasearchTopic, fundersID, amount, cardNumber, date, cvv);
+			 String output = fundObj.insertFund(reasearcherID,reasearchTopic, fundersID, amount, cardNumber, date, cvv);
 			return output;
 			}
 			
@@ -49,7 +58,7 @@ public class FundService {
 			@Path("/")
 			@Consumes(MediaType.APPLICATION_JSON)
 			@Produces(MediaType.TEXT_PLAIN)
-			public String updateItem(String fundData)
+			public String updateFunds(String fundData)
 			{
 			//Convert the input string to a JSON object
 			 JsonObject fundObject = new JsonParser().parse(fundData).getAsJsonObject();
@@ -64,7 +73,7 @@ public class FundService {
 			 String date = fundObject.get("date").getAsString();
 			 String cvv = fundObject.get("cvv").getAsString();
 			 
-			 String output = fundObj.updateItem(fundID, reasearcherID, reasearchTopic, fundersID, amount, cardNumber, date, cvv);
+			 String output = fundObj.updateFunds(fundID, reasearcherID, reasearchTopic, fundersID, amount, cardNumber, date, cvv);
 			return output;
 			}
 			
@@ -73,14 +82,14 @@ public class FundService {
 			@Path("/")
 			@Consumes(MediaType.APPLICATION_XML)
 			@Produces(MediaType.TEXT_PLAIN)
-			public String deletePayment(String fundData)
+			public String deleteFunds(String fundData)
 			{
 			//Convert the input string to an XML document
 			 Document doc = Jsoup.parse(fundData, "", Parser.xmlParser());
 
 			//Read the value from the element <itemID>
 			 String fundID = doc.select("fundID").text();
-			 String output = fundObj.deleteItem(fundID);
+			 String output = fundObj.deleteFunds(fundID);
 			return output;
 			}
 }

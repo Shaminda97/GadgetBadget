@@ -25,7 +25,7 @@ public class Payment {
 	 }
 	
 	//insert
-	public String insertItem(String ProductID, String BuyerID, String amount, String cardNumber,String date, String cvv)
+	public String insertPayment(String ProductID, String BuyerID, String amount, String cardNumber,String date, String cvv)
 	 {
 		String output = "";
 		 try
@@ -60,7 +60,7 @@ public class Payment {
 	 }
 	
 	//Admin read Item
-	public String readItems()
+	public String readPayment()
 	 {
 		 String output = "";
 		 try
@@ -71,8 +71,8 @@ public class Payment {
 		 // Prepare the html table to be displayed
 		 output = "<table border='1'><tr><th>ProductID</th><th>BuyerID</th>" +
 		 "<th>amount</th>" +
-		 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>" +
-		 "<th>Update</th><th>Remove</th></tr>";
+		 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>";/* +
+		 "<th>Update</th><th>Remove</th></tr>";*/
 	
 		 String query = "select * from payments";
 		 Statement stmt = con.createStatement();
@@ -95,12 +95,7 @@ public class Payment {
 		 //output += "<td>" + amount + "</td>";
 		 output += "<td>" + date + "</td>";
 		 output += "<td>" + cvv + "</td>";
-		 // buttons
-		 output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-		 + "<td><form method='post' action='items.jsp'>"
-		 + "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-		 + "<input name='itemID' type='hidden' value='" + PayID
-		 + "'>" + "</form></td></tr>";
+		 
 		 }
 		 con.close();
 		 // Complete the html table
@@ -114,9 +109,8 @@ public class Payment {
 		 return output;
 	 }
 	
-	//Read Cus items
-	
-	/*public String readCusItems(String BuyerId)
+	//Read paymentById
+	public String readpaymentById(String PayID)
 	 {
 		 String output = "";
 		 try
@@ -126,38 +120,33 @@ public class Payment {
 		 {return "Error while connecting to the database for reading."; }
 		 // Prepare the html table to be displayed
 		 output = "<table border='1'><tr><th>ProductID</th><th>BuyerID</th>" +
-		 "<th>amount</th></tr>";
+		 "<th>amount</th>" +
+		 "<th>cardNumber</th>" +"<th>Expire date</th>" +"<th>cvv</th>";/* +
+		 "<th>Update</th><th>Remove</th></tr>";*/
 	
-		 String query = "select * from payments where BuyerId = ?";
-		 
-		 Statement stmt = con.createStatement();
-		 ResultSet rs = stmt.executeQuery(query);
+		 String query = "select * from payments where PayID = ?";
+		 PreparedStatement preparedStmt = con.prepareStatement(query);
+		 preparedStmt.setInt(1, Integer.parseInt(PayID));
+		 ResultSet rs = preparedStmt.executeQuery();
 		 // iterate through the rows in the result set
 		 while (rs.next())
 		 {
-		 String PayID = Integer.toString(rs.getInt("PayID"));
+		 //String PayID = Integer.toString(rs.getInt("PayID"));
 		 String ProductID = Integer.toString(rs.getInt("ProductID"));
-		 String querryProdNameString = "select productName from products where ProductID = ProductID";
-		 ResultSet rs1 = stmt.executeQuery(querryProdNameString);
 		 String BuyerID = Integer.toString(rs.getInt("BuyerID"));
 		 String amount = Double.toString(rs.getDouble("amount"));
-		 //String cardNumber = Integer.toString(rs.getInt("cardNumber"));
-		 //String date = rs.getString("date");
-		 //String cvv = Integer.toString(rs.getInt("cvv"));
+		 String cardNumber = Integer.toString(rs.getInt("cardNumber"));
+		 String date = rs.getString("date");
+		 String cvv = Integer.toString(rs.getInt("cvv"));
 		 // Add into the html table
 		 output += "<tr><td>" + ProductID + "</td>";
 		 output += "<td>" + BuyerID + "</td>";
 		 output += "<td>" + amount + "</td>";
-		 //output += "<td>" + cardNumber + "</td>";
+		 output += "<td>" + cardNumber + "</td>";
 		 //output += "<td>" + amount + "</td>";
-		 //output += "<td>" + date + "</td>";
-		 //output += "<td>" + cvv + "</td>";
-		 // buttons
-		 /*output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-		 + "<td><form method='post' action='items.jsp'>"
-		 + "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-		 + "<input name='itemID' type='hidden' value='" + PayID
-		 //+ "'>" + "</form></td></tr>";
+		 output += "<td>" + date + "</td>";
+		 output += "<td>" + cvv + "</td>";
+		 
 		 }
 		 con.close();
 		 // Complete the html table
@@ -169,10 +158,10 @@ public class Payment {
 		 System.err.println(e.getMessage());
 		 }
 		 return output;
-	 }*/
+	 }
 	
 	//update
-	public String updateItem(String PayID, String ProductID, String BuyerID, String amount, String card_number,String date, String cVv)
+	public String updatePayment(String PayID, String ProductID, String BuyerID, String amount, String card_number,String date, String cVv)
 	{
 		 String output = "";
 		 try
@@ -204,7 +193,7 @@ public class Payment {
 		 return output;
 		 }
 	
-	public String deleteItem(String PayID)
+	public String deletePayment(String PayID)
 	 {
 	 String output = "";
 	 try

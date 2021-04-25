@@ -9,15 +9,24 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/payment")
+@Path("/order")
 public class OrderService {
-	
 
 	OrderService orderService = new OrderService();
 
-	
+	// Test Function
+	@GET
+	@Path("/test")
+	@Produces(MediaType.TEXT_HTML)
+	public String testFunction() {
+		
+		String res = "Test Function Working!!";
+		
+		return res;
+	}
+			
 
-	// Create transaction
+	// Create order
 	@POST
 	@Path("/create")
 	@Produces(MediaType.TEXT_HTML)
@@ -29,12 +38,9 @@ public class OrderService {
 
 	{
 
-		return orderService.createOrders(orderID, nuOfItems, BuyerID, amount,orderDate);
+		return orderService.createOrders(orderID, nuOfItems, BuyerID, amount, orderDate);
 	}
 
-	
-	
-	
 	// Find order by order ID
 	@GET
 	@Path("/id/{orderID}")
@@ -42,9 +48,6 @@ public class OrderService {
 
 		return orderService.getOrderById(orderID);
 	}
-	
-	
-	
 
 	// Delete an order
 	@DELETE
@@ -62,4 +65,3 @@ public class OrderService {
 		return orderService.updateOrder(orderID);
 	}
 }
-		

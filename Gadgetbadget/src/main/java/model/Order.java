@@ -14,8 +14,8 @@ public class Order {
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			// Access Database 'Gadgetbadget'
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/gadgetbadget", "root", "");
+			// Access Database
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mytest", "root", "");
 
 		} catch (Exception e) {
 			e.printStackTrace();
